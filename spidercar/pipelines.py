@@ -9,4 +9,5 @@
 class SpidercarPipeline(object):
     def process_item(self, item, spider):
         #保存数据
+        #ceshi
         return item
