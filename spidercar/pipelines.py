@@ -9,7 +9,7 @@ import logging
 import pymysql
 
 from spidercar.items import TaoCarItem
-from spidercar.tools.mysqlutil import Mysql
+from spiders.utils.mysqlutil import Mysql
 
 
 class SpidercarPipeline(object):
@@ -46,7 +46,7 @@ class SpidercarPipeline(object):
             site_id
         )
         self.carItems.append(dealer)
-        if len(self.carItems) > 1000:
+        if len(self.carItems) > 1:
             try:
                 self.db.batchInsert(sql, self.carItems)
                 # 清空

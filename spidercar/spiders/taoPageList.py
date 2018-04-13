@@ -12,11 +12,15 @@
 """
 import logging
 
+import os
 import redis
 import requests
+import sys
 from bs4 import BeautifulSoup
 
-from spidercar.tools.mysqlutil import Mysql
+# 根路径拓展
+sys.path.append("../../")
+from utils.mysqlutil import Mysql
 
 pc_car_prefix = 'http://www.taoche.com/v'
 pc_car_middle = '/car/?page='

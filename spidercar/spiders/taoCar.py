@@ -1,13 +1,12 @@
 # -*- coding: utf-8 -*-
 import json
 import re
-import scrapy
 from bs4 import BeautifulSoup
 from scrapy import Request
 from scrapy_redis.spiders import RedisSpider
 
-from spidercar.items import TaoPageItem, TaoCarItem
-from spidercar.tools.mysqlutil import Mysql
+from spidercar.items import TaoCarItem
+from spiders.utils.mysqlutil import Mysql
 
 pc_car_prefix = 'http://www.taoche.com/v'
 pc_car_middle = '/car/?page='
@@ -23,11 +22,11 @@ class TaoCarSpider(RedisSpider):
     name = "taoCar"
     allowed_domains = ["taoche.com"]
     redis_key = 'taoPages:start_urls'
-    db = Mysql()
     dealerDict = {}
 
     def __init__(self, *args, **kwargs):
-        dealers = self.getAllDealer
+        self.db = Mysql()
+        dealers = self.getAllDealer()
         for dealer in dealers:
             dealerId = dealer['dealer_id']
             siteId = dealer['site_id']
