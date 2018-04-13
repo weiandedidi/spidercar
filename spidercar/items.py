@@ -20,6 +20,11 @@ class TaoPageItem(Item):
     siteId = Field()
     pageUrl = Field()
 
+class TaoDealerItem(Item):
+    dealerId = Field()
+    siteId = Field()
+    dealerUrl = Field()
+
 
 class TaoCarItem(Item):
     trimm_name = Field()
@@ -34,3 +39,4 @@ class TaoCarItem(Item):
     source_id = Field()
     dealer_id = Field()
     site_id = Field()
+

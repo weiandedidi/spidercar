@@ -24,7 +24,7 @@ class SpidercarPipeline(object):
             self.process_car_item(item)
         return item
 
-    def process_tao_item(self, item):
+    def process_car_item(self, item):
         """
         保存车源，超过1000条存入数据库
         """

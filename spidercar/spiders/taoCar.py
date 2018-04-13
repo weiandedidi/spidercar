@@ -3,9 +3,10 @@ import json
 import re
 from bs4 import BeautifulSoup
 from scrapy import Request
-from scrapy_redis.spiders import RedisSpider
 
 from spidercar.items import TaoCarItem
+from scrapy_redis.spiders import RedisSpider
+
 from spidercar.spiders.utils.mysqlutil import Mysql
 
 pc_car_prefix = 'http://www.taoche.com/v'
@@ -93,7 +94,7 @@ class TaoCarSpider(RedisSpider):
         site_tag = soup.find('input', id='hiddvaid')
         if None != site_tag:
             site_id = site_tag['value']
-            dealer_id = self.dealerDict[site_id]
+            dealer_id = self.dealerDict[int(site_id)]
 
         location = soup.find('meta', {'name': 'location'})
         if None != location:

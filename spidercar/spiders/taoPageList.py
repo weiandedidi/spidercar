@@ -55,7 +55,7 @@ def getAllDealer():
 
 
 def generatePageList(dealers):
-    start_urls = 'taoPages'
+    start_urls = 'taoPages:start_urls'
     try:
         for dealer in dealers:
             siteId = dealer['site_id']
@@ -63,7 +63,7 @@ def generatePageList(dealers):
             total = getPageNum(dealerUrl)
             for i in (1, total + 1):
                 pageUrl = pc_car_prefix + str(siteId) + pc_car_middle + str(i)
-                r.sadd(start_urls, pageUrl)
+                r.lpush(start_urls, pageUrl)
     except UnicodeEncodeError, e:
         logging.error(e.message)
     except Exception, e:
