@@ -20,6 +20,8 @@ from bs4 import BeautifulSoup
 
 # 根路径拓展
 sys.path.append("../../")
+# 查看python的包查找路径
+# print(os.sys.path)
 from utils.mysqlutil import Mysql
 
 pc_car_prefix = 'http://www.taoche.com/v'
