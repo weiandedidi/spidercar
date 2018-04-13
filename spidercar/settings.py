@@ -32,6 +32,13 @@ REDIS_URL = 'redis://:maqidi4915338@10.18.34.17:6379/0'
 
 REDIS_PARAMS  = {'password': 'maqidi4915338'}
 
+MYSQL_HOST = '10.11.172.233'
+MYSQL_PORT = 3306
+MYSQL_USER = 'wanjiang'
+MYSQL_PWD = 'wanjiang0310'
+MYSQL_NAME = 'hahah'
+MYSQL_CHAR = 'gbk'
+
 # Introduce an artifical delay to make use of parallelism. to speed up the
 # crawl.
 DOWNLOAD_DELAY = 1

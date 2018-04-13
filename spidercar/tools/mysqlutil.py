@@ -28,6 +28,7 @@ Created on 2016年11月5日
 reload(sys)
 sys.setdefaultencoding('utf-8')
 import logging, os
+import spidercar.settings as CONFIG
 
 logging.basicConfig(level=logging.INFO,
                     filename='/root/maqidi/script/log/log_mysql.txt',
@@ -41,12 +42,12 @@ Config是一些数据库的配置文件
 
 class Config(object):
     """数据库链接的参数"""
-    DBHOST = '10.11.172.233'
-    DBPORT = 3306
-    DBUSER = 'wanjiang'
-    DBPWD = 'wanjiang0310'
-    DBNAME = 'usedcar'
-    DBCHAR = 'gbk'
+    DBHOST = CONFIG.MYSQL_HOST
+    DBPORT = CONFIG.MYSQL_PORT
+    DBUSER = CONFIG.MYSQL_USER
+    DBPWD = CONFIG.MYSQL_PWD
+    DBNAME = CONFIG.MYSQL_NAME
+    DBCHAR = CONFIG.MYSQL_CHAR
 
 
 class Mysql(object):

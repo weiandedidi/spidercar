@@ -22,6 +22,15 @@ class TaoPageItem(Item):
 
 
 class TaoCarItem(Item):
-    dealerId = Field()
-    siteId = Field()
-    carUrl = Field()
+    trimm_name = Field()
+    t_tid = Field()
+    mileage = Field()
+    first_license_date = Field()
+    province = Field()
+    city = Field()
+    price = Field()
+    url = Field()
+    pic_url = Field()
+    source_id = Field()
+    dealer_id = Field()
+    site_id = Field()
