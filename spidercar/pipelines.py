@@ -46,7 +46,7 @@ class SpidercarPipeline(object):
             site_id
         )
         self.carItems.append(dealer)
-        if len(self.carItems) > 1:
+        if len(self.carItems) > 1000:
             try:
                 self.db.batchInsert(sql, self.carItems)
                 # 清空
