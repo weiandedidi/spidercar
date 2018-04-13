@@ -6,7 +6,7 @@ from scrapy import Request
 from scrapy_redis.spiders import RedisSpider
 
 from spidercar.items import TaoCarItem
-from spidercar.spiders.utils import Mysql
+from spidercar.spiders.utils.mysqlutil import Mysql
 
 pc_car_prefix = 'http://www.taoche.com/v'
 pc_car_middle = '/car/?page='
