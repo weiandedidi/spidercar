@@ -57,15 +57,17 @@ class TaoCarSpider(RedisSpider):
         二级页面解析解析车源页
         """
         trimm_name = ''
-        t_tid = 0
         mileage = 0
         first_license_date = ''
         province = ''
         city = ''
         price = 0
         pic_url = ''
-        site_id = 0
-        dealer_id = 0
+        site_id = -1
+        dealer_id = -1
+        brand_id = -1
+        model_id = -1
+        trimm_id = -1
 
         # 解析list页面获取car的link
         html = response.body
@@ -79,9 +81,9 @@ class TaoCarSpider(RedisSpider):
         if None != price_tag:
             price = price_tag['value']
 
-        tid_tag = soup.find('input', id='hidCarID')
-        if None != tid_tag:
-            tid = tid_tag['value']
+        trimm_id_tag = soup.find('input', id='hidCarID')
+        if None != trimm_id_tag:
+            trimm_id = trimm_id_tag['value']
 
         first_license_date_tag = soup.find('input', id='hidBuyCarDate')
         if None != first_license_date_tag:
@@ -95,6 +97,8 @@ class TaoCarSpider(RedisSpider):
         if None != site_tag:
             site_id = site_tag['value']
             dealer_id = self.dealerDict[int(site_id)]
+        model_tag = soup.find('input', id='hidSerialId')
+        # if None != model_tag:
 
         location = soup.find('meta', {'name': 'location'})
         if None != location:
@@ -115,7 +119,7 @@ class TaoCarSpider(RedisSpider):
             pic_url = json.dumps(pic_dic)
         item = TaoCarItem()
         item['trimm_name'] = trimm_name
-        item['t_tid'] = t_tid
+        item['trimm_id'] = trimm_id
         item['mileage'] = mileage
         item['first_license_date'] = first_license_date
         item['province'] = province
