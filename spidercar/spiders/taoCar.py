@@ -1,13 +1,13 @@
-# -*- coding: utf-8 -*-
-import json
+#!/usr/bin/python
+# -*- coding: UTF-8 -*-
 import re
-from bs4 import BeautifulSoup
 from datetime import datetime
+
+from bs4 import BeautifulSoup
 from scrapy import Request
 
-from spidercar.items import TaoCarItem
 from scrapy_redis.spiders import RedisSpider
-
+from spidercar.items import TaoCarItem
 from spidercar.spiders.utils.mysqlutil import Mysql
 
 pc_car_prefix = 'http://www.taoche.com/v'
@@ -32,7 +32,7 @@ class TaoCarSpider(RedisSpider):
         for dealer in dealers:
             dealerId = dealer['dealer_id']
             siteId = dealer['site_id']
-            self.dealerDict[siteId] = dealerId
+            self.dealerDict[siteId] = dealer
         super(TaoCarSpider, self).__init__(*args, **kwargs)
 
     def parse(self, response):
@@ -69,6 +69,8 @@ class TaoCarSpider(RedisSpider):
         t_brand_id = -1
         t_model_id = -1
         t_trimm_id = -1
+        phone =''
+
 
         # 解析list页面获取car的link
         html = response.body
@@ -104,10 +106,10 @@ class TaoCarSpider(RedisSpider):
 
         site_tag = soup.find('input', id='hiddvaid')
         if None != site_tag:
-            site_id = site_tag['value']
-            dealer_id = self.dealerDict[int(site_id)]
-        model_tag = soup.find('input', id='hidSerialId')
-        # if None != model_tag:
+            site_id = int(site_tag['value'])
+            dealer = self.dealerDict[int(site_id)]
+            dealer_id = dealer['dealer_id']
+            phone = dealer['phone']
 
         location = soup.find('meta', {'name': 'location'})
         if None != location:
@@ -142,6 +144,7 @@ class TaoCarSpider(RedisSpider):
         item['source_id'] = SOURCE_ID
         item['dealer_id'] = dealer_id
         item['site_id'] = site_id
+        item['phone'] = phone
         create_datetime = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
         item['create_datetime'] = create_datetime
         yield item
@@ -151,7 +154,7 @@ class TaoCarSpider(RedisSpider):
         获取待抓取车源的商家
         :return:商家id的list
         """
-        sql = 'SELECT site_id,dealer_id FROM sync_car_dealer WHERE source_id =4'
+        sql = 'SELECT site_id,dealer_id,phone FROM sync_car_dealer WHERE source_id =4'
         dealers = db.getAll(sql)
         self.db.dispose()
         return dealers
