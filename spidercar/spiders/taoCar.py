@@ -2,6 +2,7 @@
 import json
 import re
 from bs4 import BeautifulSoup
+from datetime import datetime
 from scrapy import Request
 
 from spidercar.items import TaoCarItem
@@ -65,9 +66,9 @@ class TaoCarSpider(RedisSpider):
         pic_url = ''
         site_id = -1
         dealer_id = -1
-        brand_id = -1
-        model_id = -1
-        trimm_id = -1
+        t_brand_id = -1
+        t_model_id = -1
+        t_trimm_id = -1
 
         # 解析list页面获取car的link
         html = response.body
@@ -83,7 +84,15 @@ class TaoCarSpider(RedisSpider):
 
         trimm_id_tag = soup.find('input', id='hidCarID')
         if None != trimm_id_tag:
-            trimm_id = trimm_id_tag['value']
+            t_trimm_id = trimm_id_tag['value']
+
+        model_tag = soup.find('input', id='hidSerialId')
+        if None != model_tag:
+            t_model_id = model_tag['value']
+
+        brand_tage = soup.find('input', id='hidBrandId')
+        if None != brand_tage:
+            t_brand_id = brand_tage['value']
 
         first_license_date_tag = soup.find('input', id='hidBuyCarDate')
         if None != first_license_date_tag:
@@ -109,17 +118,20 @@ class TaoCarSpider(RedisSpider):
             city = address_list[3].strip().encode('gbk', 'ignore')
         # url
         imgs = soup.find_all('img', {'class': 'swiper-lazy'})
-        pic_dic = {}
+        pic_url = ''
         if len(imgs) > 0:
             index = 0
             for img in imgs:
                 index += 1
                 link_img = img['data-original']
-                pic_dic[index] = link_img
-            pic_url = json.dumps(pic_dic)
+                pic_url = pic_url + '|' + link_img
+            # 截取的到1到最后一位，去掉首位的|
+            pic_url = pic_url[1:len(pic_url)]
         item = TaoCarItem()
         item['trimm_name'] = trimm_name
-        item['trimm_id'] = trimm_id
+        item['t_brand_id'] = t_brand_id
+        item['t_model_id'] = t_model_id
+        item['t_trimm_id'] = t_trimm_id
         item['mileage'] = mileage
         item['first_license_date'] = first_license_date
         item['province'] = province
@@ -130,6 +142,8 @@ class TaoCarSpider(RedisSpider):
         item['source_id'] = SOURCE_ID
         item['dealer_id'] = dealer_id
         item['site_id'] = site_id
+        create_datetime = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+        item['create_datetime'] = create_datetime
         yield item
 
     def getAllDealer(self):

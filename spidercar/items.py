@@ -28,7 +28,9 @@ class TaoDealerItem(Item):
 
 class TaoCarItem(Item):
     trimm_name = Field()
-    t_tid = Field()
+    t_brand_id = Field()
+    t_model_id = Field()
+    t_trimm_id = Field()
     mileage = Field()
     first_license_date = Field()
     province = Field()
@@ -39,4 +41,7 @@ class TaoCarItem(Item):
     source_id = Field()
     dealer_id = Field()
     site_id = Field()
+    phone = Field()
+    create_datetime = Field()
+
 

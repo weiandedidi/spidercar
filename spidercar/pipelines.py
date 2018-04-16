@@ -28,9 +28,11 @@ class SpidercarPipeline(object):
         """
         保存车源，超过1000条存入数据库
         """
-        sql = 'INSERT INTO sync_car(trimm_name,t_tid, mileage, first_license_date, province, city, price, url, pic_url, source_id, dealer_id,site_id)VALUES(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)'
+        sql = 'INSERT INTO sync_car(trimm_name,t_brand_id,t_model_id,t_trimm_id ,mileage, first_license_date, province, city, price, url, pic_url, source_id, dealer_id,site_id,phone,create_datetime)VALUES(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)'
         trimm_name = item['trimm_name']
-        t_tid = item['t_tid']
+        t_brand_id = item['t_brand_id']
+        t_model_id = item['t_model_id']
+        t_trimm_id = item['t_trimm_id']
         mileage = item['mileage']
         first_license_date = item['first_license_date']
         province = item['province']
@@ -41,11 +43,13 @@ class SpidercarPipeline(object):
         source_id = item['source_id']
         dealer_id = item['dealer_id']
         site_id = item['site_id']
-        dealer = (
-            trimm_name, t_tid, mileage, first_license_date, province, city, price, url, pic_url, source_id, dealer_id,
-            site_id
-        )
-        self.carItems.append(dealer)
+        phone = item['phone']
+        create_datetime = item['create_datetime']
+        car = (trimm_name, t_brand_id, t_model_id, t_trimm_id, mileage, first_license_date, province, city, price, url,
+               pic_url, source_id,
+               site_id,
+               dealer_id, phone, create_datetime)
+        self.carItems.append(car)
         if len(self.carItems) > 1000:
             try:
                 self.db.batchInsert(sql, self.carItems)
