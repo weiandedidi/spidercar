@@ -24,7 +24,8 @@ ITEM_PIPELINES = {
 
 LOG_LEVEL = 'DEBUG'
 
-REDIS_HOST = '10.18.37.17'
+# REDIS_HOST = '10.18.37.17'
+REDIS_HOST = 'localhost'
 
 REDIS_PORT = 6379
 # REDIS_URL = 'redis://user:passpord@hostname:port/db'
